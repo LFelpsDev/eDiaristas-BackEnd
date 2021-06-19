@@ -14,4 +14,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [DiaristasController::class, 'index']);
+Route::get('/', [DiaristasController::class, 'index'])->name('diaristas.index');
+Route::get('/diaristas/create', [DiaristasController::class, 'create'])->name('diaristas.create');

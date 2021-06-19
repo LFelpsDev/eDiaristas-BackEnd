@@ -30,35 +30,9 @@
     </header>
 
     <div class="container">
-    <h1>Listas de Diaristas</h1>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Telefone</th>
-                    <th scope="col">Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($diaristas as $diarista)
-                <tr>
-                    <th scope="row">{{ $diarista->id }}</th>
-                    <td>{{ $diarista->nome_completo}}</td>
-                    <td>{{ $diarista->telefone }}</td>
-                    <td></td>
-                </tr>
-            </tbody>
-            @empty
-            <tr>
-                <th></th>
-                <td>Nenhum Registro Cadastrado</td>
-                <td></td>
-                <td></td>
-            </tr>
-            @endforelse
-        </table>
-        <a href="{{ route('diaristas.create')}}" class="btn btn-success">Nova Diarista</a>
+    <h1>Criar Diarista</h1>
+       
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>

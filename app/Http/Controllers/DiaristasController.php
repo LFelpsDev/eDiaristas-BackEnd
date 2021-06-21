@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DiaristaRequest;
 use App\Models\Diarista;
+use App\Services\ViaCEP;
 use Illuminate\Http\Request;
 
 class DiaristasController extends Controller
 {   
+    public function __construct(
+        protected ViaCEP $viaCep
+    ){
+
+    }
     /**
      * Lista as Diaristas.
      *
@@ -32,7 +39,7 @@ class DiaristasController extends Controller
     /*
         Cria uma Diarista NO Banco de dados
     */
-    public function store(Request $request)
+    public function store(DiaristaRequest $request)
     {
         $dados = $request->except('_token');
         $dados['foto_usuario'] = $request->foto_usuario->store('public');
@@ -41,6 +48,7 @@ class DiaristasController extends Controller
         $dados['cep'] = str_replace('-', '', $dados['cep']);
         $dados['telefone'] = str_replace(['-','(',')', ' ' ],'', $dados['telefone']);
         $dados['codigo_ibge'] = str_replace('-', '', $dados['codigo_ibge']);
+        $dados['codigo_ibge'] = $this->viaCep->buscar($dados['cep'])['ibge'];
 
         Diarista::create($dados);
 
@@ -66,7 +74,7 @@ class DiaristasController extends Controller
      * Atualiza uma diarista no banco de dados
      * 
      */ 
-    public function update(int $id, Request $request)
+    public function update(int $id, DiaristaRequest $request)
     {
         $diarista =  Diarista::findOrFail($id);
 
@@ -81,7 +89,8 @@ class DiaristasController extends Controller
         $dados['cpf'] = str_replace(['.', '-'], '', $dados['cpf']);
         $dados['cep'] = str_replace('-', '', $dados['cep']);
         $dados['telefone'] = str_replace(['-','(',')', ' ' ],'', $dados['telefone']);
-        $dados['codigo_ibge'] = str_replace('-', '', $dados['codigo_ibge']);
+        $dados['codigo_ibge'] = str_replace(['-',','],'', $dados['codigo_ibge']);
+        $dados['codigo_ibge'] = $this->viaCep->buscar($dados['cep'])['ibge'];
 
         return redirect()->route('diaristas.index');
     }
